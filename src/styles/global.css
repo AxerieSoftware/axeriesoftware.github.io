@@ -1,0 +1,87 @@
+@import "@fontsource-variable/familjen-grotesk";
+@import "@fontsource-variable/hanken-grotesk";
+
+:root {
+	--font-display: "Familjen Grotesk Variable", sans-serif;
+	--font-text: "Hanken Grotesk Variable", sans-serif;
+
+	--ground: #f3f4f1;
+	--surface: #ffffff;
+	--ink: #111312;
+	--ink-2: #545955;
+	--line: #dcdfd9;
+	--accent: #2c6a4c;
+	--shot-shadow: 0 1.75rem 3rem -1.75rem rgb(17 19 18 / 0.45), 0 0.125rem 0.375rem rgb(17 19 18 / 0.08);
+	--shot-shadow-raised: 0 2.5rem 3.5rem -2rem rgb(17 19 18 / 0.5), 0 0.25rem 0.5rem rgb(17 19 18 / 0.08);
+
+	color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--ground: #121413;
+		--surface: #1b1e1c;
+		--ink: #eef0ec;
+		--ink-2: #a9afaa;
+		--line: #2a2e2b;
+		--accent: #7cc49d;
+		--shot-shadow: 0 1.75rem 3rem -1.5rem rgb(0 0 0 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.06);
+		--shot-shadow-raised: 0 2.5rem 3.5rem -1.75rem rgb(0 0 0 / 0.75), 0 0 0 1px rgb(255 255 255 / 0.08);
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	margin: 0;
+	background: var(--ground);
+	color: var(--ink);
+	font: 400 1.125rem / 1.6 var(--font-text);
+	font-optical-sizing: auto;
+}
+
+::selection {
+	background: var(--accent);
+	color: var(--ground);
+}
+
+a {
+	color: inherit;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25em;
+}
+
+a:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.wrap {
+	width: min(100% - 2rem, 72rem);
+	margin-inline: auto;
+}
+
+@media (min-width: 40rem) {
+	.wrap {
+		width: min(100% - 4rem, 72rem);
+	}
+}

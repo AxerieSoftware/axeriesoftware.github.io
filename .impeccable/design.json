@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 2,
+	"generatedAt": "2026-10-15T00:00:00Z",
+	"title": "Design System: Axerie Software",
+	"extensions": {
+		"colorMeta": {
+			"accent": { "role": "secondary", "displayName": "Studio Green" },
+			"ink": { "role": "primary", "displayName": "Ink" },
+			"ground": { "role": "neutral", "displayName": "Cool Paper" }
+		},
+		"typographyMeta": {
+			"heading": { "displayName": "Tool name", "purpose": "Each tool band's name." }
+		},
+		"shadows": [
+			{ "name": "shot", "value": "0 1.75rem 3rem -1.75rem rgb(17 19 18 / 0.45), 0 0.125rem 0.375rem rgb(17 19 18 / 0.08)", "purpose": "Screenshot frames at rest." },
+			{ "name": "shot-raised", "value": "0 2.5rem 3.5rem -2rem rgb(17 19 18 / 0.5), 0 0.25rem 0.5rem rgb(17 19 18 / 0.08)", "purpose": "Screenshot frames when their band's action is hovered." }
+		],
+		"motion": [{ "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Screenshot lift and arrow nudge." }],
+		"breakpoints": [
+			{ "name": "gutter-wide", "value": "40rem" },
+			{ "name": "two-column", "value": "60rem" }
+		]
+	},
+	"components": [
+		{
+			"name": "Primary Button",
+			"kind": "button",
+			"refersTo": "button-primary",
+			"description": "The one action in each tool band.",
+			"html": "<a class=\"ds-action\" href=\"#\">Get Wingspan<span aria-hidden=\"true\">→</span></a>",
+			"css": ".ds-action { display: inline-flex; gap: 0.5rem; align-items: center; padding: 0.8rem 1.35rem; border-radius: 999px; background: #111312; color: #f3f4f1; font: 650 1.125rem/1.6 'Hanken Grotesk Variable', sans-serif; text-decoration: none; transition: background-color 200ms ease-out; } .ds-action:hover { background: #2c6a4c; }"
+		}
+	],
+	"narrative": {
+		"northStar": "The quiet studio",
+		"overview": "A plain, well-made page where each tool's real screenshot does the persuading.",
+		"keyCharacteristics": ["Real screenshots that follow the color scheme", "One small green accent", "Bands separated by lines, never cards"],
+		"rules": [{ "name": "One accent, small", "body": "Green marks labels and interaction only.", "section": "colors" }],
+		"dos": ["Show every tool with real light and dark screenshots."],
+		"donts": ["No eyebrows, section numbers, stats, icon cards or gradients."]
+	}
+}

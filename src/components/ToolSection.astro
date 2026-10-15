@@ -1,0 +1,144 @@
+---
+import { getImage } from 'astro:assets';
+import type { Tool } from '../data/tools';
+
+type Props = { tool: Tool; isFirst: boolean; isReversed: boolean };
+
+const SCREENSHOT_WIDTHS = [800, 1400, 2000];
+const FALLBACK_WIDTH = 1400;
+const SIZES = '(min-width: 60rem) 62vw, 100vw';
+
+const { tool, isFirst, isReversed } = Astro.props;
+const headingId = `${tool.id}-name`;
+
+async function toSrcset(image: ImageMetadata): Promise<string> {
+	const widths = SCREENSHOT_WIDTHS.filter(width => width <= image.width);
+	const resized = await Promise.all(widths.map(width => getImage({ src: image, width, format: 'webp' })));
+	return resized.map(entry => `${entry.src} ${entry.attributes.width}w`).join(', ');
+}
+
+const [lightSrcset, darkSrcset] = await Promise.all([toSrcset(tool.screenshot.light), toSrcset(tool.screenshot.dark)]);
+const fallback = await getImage({ src: tool.screenshot.light, width: FALLBACK_WIDTH, format: 'webp' });
+---
+
+<section class:list={['tool', { reversed: isReversed }]} aria-labelledby={headingId}>
+	<div class="copy">
+		<h2 id={headingId}>{tool.name}</h2>
+		<p class="kind">{tool.kind}</p>
+		<p class="description">{tool.description}</p>
+		<a class="action" href={tool.url}>{tool.action}<span aria-hidden="true">→</span></a>
+	</div>
+	<a class="shot" href={tool.url} tabindex="-1" aria-hidden="true">
+		<picture>
+			<source media="(prefers-color-scheme: dark)" srcset={darkSrcset} sizes={SIZES} />
+			<source srcset={lightSrcset} sizes={SIZES} />
+			<img
+				src={fallback.src}
+				width={tool.screenshot.light.width}
+				height={tool.screenshot.light.height}
+				alt={tool.screenshot.alt}
+				loading={isFirst ? 'eager' : 'lazy'}
+				fetchpriority={isFirst ? 'high' : 'auto'}
+				decoding="async"
+			/>
+		</picture>
+	</a>
+</section>
+
+<style>
+	.tool {
+		display: grid;
+		grid-template-columns: minmax(18rem, 1fr) minmax(0, 1.75fr);
+		gap: clamp(2rem, 5vw, 4.5rem);
+		align-items: center;
+		padding-block: clamp(3rem, 6vw, 4.5rem);
+		border-top: 1px solid var(--line);
+	}
+	.tool:first-of-type {
+		border-top: none;
+		padding-top: clamp(1rem, 3vw, 2rem);
+	}
+	.tool.reversed {
+		grid-template-columns: minmax(0, 1.75fr) minmax(18rem, 1fr);
+	}
+	.reversed .shot {
+		order: -1;
+	}
+
+	h2 {
+		margin: 0;
+		font: 700 clamp(2rem, 3.2vw, 2.75rem) / 1.05 var(--font-display);
+		letter-spacing: -0.025em;
+	}
+	.kind {
+		margin: 0.5rem 0 0;
+		color: var(--accent);
+		font-size: 0.9375rem;
+		font-weight: 600;
+	}
+	.description {
+		max-width: 38ch;
+		margin: 1.25rem 0 0;
+		color: var(--ink-2);
+	}
+
+	.action {
+		display: inline-flex;
+		gap: 0.5rem;
+		align-items: center;
+		margin-top: 1.75rem;
+		padding: 0.8rem 1.35rem;
+		border-radius: 999px;
+		background: var(--ink);
+		color: var(--ground);
+		font-weight: 650;
+		text-decoration: none;
+		transition: background-color 200ms ease-out;
+	}
+	.action span {
+		transition: translate 300ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.action:hover {
+		background: var(--accent);
+	}
+	.action:hover span {
+		translate: 0.2rem 0;
+	}
+
+	.shot {
+		display: block;
+		border-radius: 14px;
+		overflow: hidden;
+		box-shadow: var(--shot-shadow);
+		transition: translate 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.tool:has(.action:hover) .shot,
+	.shot:hover {
+		translate: 0 -0.35rem;
+		box-shadow: var(--shot-shadow-raised);
+	}
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		background: var(--surface);
+	}
+
+	@media (max-width: 60rem) {
+		.tool,
+		.tool.reversed {
+			grid-template-columns: 1fr;
+		}
+		.tool .shot,
+		.reversed .shot {
+			order: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.shot,
+		.action span {
+			transition: none;
+		}
+	}
+</style>
