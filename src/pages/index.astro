@@ -7,20 +7,20 @@ const GITHUB_URL = 'https://github.com/AxerieSoftware';
 const YEAR = 2026;
 ---
 
-<Base title="Axerie Software" description="Free, open-source tools that add what the software you already use doesn’t do yet.">
+<Base title="Axerie" description="Free, open-source tools that add what the software you already use doesn’t do yet.">
 	<header class="wrap top">
-		<a class="wordmark" href="/" aria-label="Axerie Software home">Axerie<span> Software</span></a>
+		<a class="wordmark" href="/" aria-label="Axerie home">Axerie</a>
 		<a href={GITHUB_URL}>GitHub</a>
 	</header>
 
 	<main class="wrap">
-		<h1 class="visually-hidden">Axerie Software tools</h1>
+		<h1 class="visually-hidden">Axerie tools</h1>
 
 		{TOOLS.map((tool, index) => <ToolSection tool={tool} isFirst={index === 0} isReversed={index % 2 === 1} />)}
 	</main>
 
 	<footer class="wrap bottom">
-		<p>© {YEAR} Axerie Software. Every tool is free and open source, with the code on <a href={GITHUB_URL}>GitHub</a>.</p>
+		<p>© {YEAR} Axerie LLC. Every tool is free and open source, with the code on <a href={GITHUB_URL}>GitHub</a>.</p>
 	</footer>
 </Base>
 
@@ -42,11 +42,6 @@ const YEAR = 2026;
 		letter-spacing: -0.02em;
 		text-decoration: none;
 	}
-	.wordmark span {
-		color: var(--ink-2);
-		font-weight: 500;
-	}
-
 
 	.bottom {
 		padding-block: 2.5rem 3.5rem;

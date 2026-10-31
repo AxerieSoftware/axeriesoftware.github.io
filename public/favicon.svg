@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-	<title>Axerie Software</title>
+	<title>Axerie</title>
 	<style>rect { fill: #111312; } path { fill: #f3f4f1; } @media (prefers-color-scheme: dark) { rect { fill: #eef0ec; } path { fill: #121413; } }</style>
 	<rect width="64" height="64" rx="14"/>
 	<path d="M27.4 14h9.2L50 50h-8.6l-2.9-8.2H25.5L22.6 50H14Zm8.8 21-4.2-12-4.2 12Z"/>

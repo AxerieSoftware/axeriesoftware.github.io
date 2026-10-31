@@ -16,7 +16,7 @@ People who already use, or just heard about, one Axerie tool and want to see wha
 
 ## Product Purpose
 
-axerie.com is the home for Axerie Software, a one-person studio that builds free, open-source tools. The homepage introduces the studio in a sentence and sends visitors to each tool. Success is a visitor finding the tool they need and following its link.
+axerie.com is the home for Axerie, a one-person studio that builds free, open-source tools. The homepage introduces the studio in a sentence and sends visitors to each tool. Success is a visitor finding the tool they need and following its link.
 
 ## Positioning
 
@@ -33,7 +33,7 @@ Every tool is free, open source and made by one developer who uses them. That's 
 
 ## Brand Commitments
 
-- Name: Axerie Software (Axerie for short). No existing logo, colors or type; the wordmark is designed with the site.
+- Name: Axerie (legal entity Axerie LLC). No existing logo, colors or type; the wordmark is designed with the site.
 - Each tool keeps its own identity on its own site; Wingspan has its own wordmark.
 - Voice matches the tools' own copy: plain and concrete, says what a tool does for you in everyday words ("See when every bill is due"), short bolded lead-ins in lists, and "Free and open source, forever." No hype, no slogans.
 

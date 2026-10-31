@@ -9,7 +9,7 @@ related_targets: []
 
 Scope: `src/pages/index.astro`, the axerie.com homepage. Visitor mode: Persuade.
 
-Audience: people who know one Axerie Software tool and want the others. Action: follow a tool's link. Proof: each tool's real screenshot (light and dark).
+Audience: people who know one Axerie tool and want the others. Action: follow a tool's link. Proof: each tool's real screenshot (light and dark).
 
 Chosen: the standard studio page, played straight at a high craft bar (canon). Seed 9459fddf.
 

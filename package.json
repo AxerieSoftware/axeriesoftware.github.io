@@ -1,6 +1,6 @@
 {
 	"name": "axerie-site",
-	"description": "axerie.com: the home page for Axerie Software's tools.",
+	"description": "axerie.com: the home page for Axerie.s tools.",
 	"private": true,
 	"type": "module",
 	"scripts": {

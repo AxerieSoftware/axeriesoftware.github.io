@@ -1,5 +1,5 @@
 ---
-name: Axerie Software
+name: Axerie
 description: A quiet studio page where each tool's real screenshot does the persuading.
 colors:
   ground: "#f3f4f1"
@@ -53,7 +53,7 @@ components:
     rounded: "{rounded.frame}"
 ---
 
-# Design System: Axerie Software
+# Design System: Axerie
 
 ## Overview
 

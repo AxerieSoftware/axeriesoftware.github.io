@@ -1,6 +1,6 @@
 # axerie.com
 
-The home page for Axerie Software's tools, built with [Astro](https://astro.build) and deployed to GitHub Pages.
+The home page for Axerie.s tools, built with [Astro](https://astro.build) and deployed to GitHub Pages.
 
 ## Commands
 

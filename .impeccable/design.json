@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 2,
 	"generatedAt": "2026-10-15T00:00:00Z",
-	"title": "Design System: Axerie Software",
+	"title": "Design System: Axerie",
 	"extensions": {
 		"colorMeta": {
 			"accent": { "role": "secondary", "displayName": "Studio Green" },
