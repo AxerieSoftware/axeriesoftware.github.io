@@ -1,0 +1,71 @@
+name: CI auto-fix
+
+# Claude fixes a failed build on Dependabot's updates, which nobody else is touching. It runs the branch's code with
+# write access and secrets, which is safe only because Dependabot's own branches in this repo are trusted.
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-auto-fix-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    # Claude's own pushes run the build as claude[bot], so a fix that still fails isn't fixed again.
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+      # The action trades the OIDC token for the Claude GitHub App's token, whose pushes trigger the build.
+      id-token: write
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # An update can break the install itself, such as with a peer dependency conflict, and that's Claude's to fix.
+      - name: Install dependencies
+        id: install
+        run: npm ci
+        continue-on-error: true
+
+      - name: Fix the build with Claude
+        uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1.0.269
+        with:
+          # Set one of the two secrets.
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # The action refuses bot-started runs unless listed; the job's condition already limits it to Dependabot.
+          allowed_bots: dependabot[bot]
+          claude_args: --allowedTools "Edit,Write,Read,Glob,Grep,Bash(npm:*),Bash(npx:*),Bash(node:*),Bash(git:*),Bash(gh:*)"
+          prompt: |
+            The `${{ github.event.workflow_run.name }}` run ${{ github.event.workflow_run.html_url }} failed on Dependabot's branch `${{ github.event.workflow_run.head_branch }}`, PR #${{ github.event.workflow_run.pull_requests[0].number }}.
+
+            1. If the branch's HEAD is no longer `${{ github.event.workflow_run.head_sha }}`, a newer push is already being checked. Change nothing and say so.
+            2. Read the failed jobs' logs with `gh run view ${{ github.event.workflow_run.id }} --log-failed`.
+            3. Find the root cause, usually an update that changed an API, a type or a lint rule. `npm ci` ${{ steps.install.outcome == 'success' && 'succeeded' || 'failed in this job, so start there' }}.
+            4. Fix it, following AGENTS.md. Don't weaken, skip or delete checks to get them passing.
+            5. Rerun `npm run check` and `npm run build`.
+            6. Commit on the current branch and push it to the PR. Never push to `main`.
+
+            If the failure is flaky or outside the code, such as a runner or network error, change nothing and say why.
